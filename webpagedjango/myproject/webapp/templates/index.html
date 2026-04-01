@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Homepage</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'webapp/index.css' %}">
+</head>
+<body>
+
+    <h1>Homepage</h1>
+
+    <!-- Messages -->
+   <div class="messages">
+    {% for message in messages %}
+        <div class="message {{ message.tags }}">
+            {{ message }}
+        </div>
+    {% endfor %}
+    </div>
+
+    {% if user.is_authenticated %}
+
+        <h3>Welcome {{ user.first_name }}</h3>
+        <p>You have successfully logged in</p>
+
+        <a href="/singout">Sign Out</a>
+
+        <hr>
+
+        <!-- ✅ CREATE POST -->
+        <h3>Create a Post</h3>
+        <form method="POST" action="{% url 'index' %}">
+            {% csrf_token %}
+            <textarea name="content" placeholder="Write something..." required></textarea>
+            <br>
+            <button type="submit">Post</button>
+        </form>
+
+        <hr>
+
+        <!-- ✅ DISPLAY POSTS -->
+        <h3>All Posts</h3>
+
+        {% for post in posts %}
+            <div style="border:1px solid #ccc; padding:10px; margin-bottom:10px;">
+                
+                <strong>{{ post.user.username }}</strong>
+                <p>{{ post.content }}</p>
+                <small>{{ post.created_at }}</small>
+
+                <br>
+
+                {% if post.user == user %}
+                    <a href="{% url 'delete_post' post.id %}">Delete</a>
+                {% endif %}
+
+            </div>
+        {% empty %}
+            <p>No posts yet.</p>
+        {% endfor %}
+
+    {% else %}
+
+        <a href="/singup">Sign Up</a>
+        <a href="/singin">Sign In</a>
+
+    {% endif %}
+
+</body>
+</html>
+```
