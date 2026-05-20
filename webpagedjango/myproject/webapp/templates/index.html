@@ -44,7 +44,7 @@
         <h3>All Posts</h3>
 
         {% for post in posts %}
-            <div style="border:1px solid #ccc; padding:10px; margin-bottom:10px;">
+            <div style="border:1px solid #ccc; padding:10px; margin-bottom:10px; text-align:center;">
                 
                 <strong>{{ post.user.username }}</strong>
                 <p>{{ post.content }}</p>
@@ -70,4 +70,3 @@
 
 </body>
 </html>
-```
